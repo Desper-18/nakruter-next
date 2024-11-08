@@ -7,10 +7,18 @@ import useIndicator from './useIndicator';
 export default function MainForm() {
   const [amount, setAmount] = useState(1500);
 
-  const bonusIndicator = useIndicator({ rate: 4, isEnabled: false });
+  const bonusIndicator = useIndicator({
+    rate: 4,
+    isEnabled: false,
+    isChangeable: true,
+  });
   const simplifiedTaxIndicator = useIndicator({ rate: 6, isEnabled: true });
   const bankFeeIndicator = useIndicator({ rate: 0.9, isEnabled: true });
-  const socialTaxIndicator = useIndicator({ rate: 1, isEnabled: false });
+  const socialTaxIndicator = useIndicator({
+    rate: 1,
+    isEnabled: false,
+    isChangeable: true,
+  });
   let totalAmount =
     amount +
     bonusIndicator.state.value +
@@ -50,7 +58,7 @@ export default function MainForm() {
   }, [amount, bonusIndicator.state.isEnabled]);
 
   return (
-    <form className="grid sm:grid-cols-2 xl:grid-cols-6 gap-9 px-4 py-3 max-w-[60vmax] mx-auto @container">
+    <form className="grid sm:grid-cols-2 xl:grid-cols-6 gap-9 px-4 py-3 max-w-[60vmax] mx-auto">
       <div className="sm:col-span-2 xl:col-span-3">
         <AmountInput amount={amount} setAmount={setAmount} />
       </div>
@@ -59,6 +67,7 @@ export default function MainForm() {
           label={'4% бонус'}
           state={bonusIndicator.state}
           toggleEnabled={bonusIndicator.toggleEnabled}
+          changeValue={bonusIndicator.changeValue}
         />
       </div>
       <div className="xl:col-span-2">
@@ -80,6 +89,7 @@ export default function MainForm() {
           label={'1% соц.налог'}
           state={socialTaxIndicator.state}
           toggleEnabled={socialTaxIndicator.toggleEnabled}
+          changeValue={socialTaxIndicator.changeValue}
         />
       </div>
       <div className="sm:col-span-2 xl:col-span-6 text-center text-7xl my-4 font-bold">

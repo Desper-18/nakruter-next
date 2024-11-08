@@ -1,6 +1,14 @@
 import React from 'react';
 
-export default function AdditionalInput({ label, toggleEnabled, state }) {
+export default function AdditionalInput({
+  label,
+  toggleEnabled,
+  changeValue,
+  state,
+}) {
+  const onChange = e => {
+    changeValue(e.target.value);
+  };
   return (
     <>
       <label className="block mb-1 text-sm">{label}</label>
@@ -17,7 +25,8 @@ export default function AdditionalInput({ label, toggleEnabled, state }) {
           type="number"
           inputMode="numeric"
           defaultValue={state.value}
-          disabled={true}
+          disabled={state.isEnabled && !state.isChangeable}
+          onChange={onChange}
           className={`w-full bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-10 px-3 py-3 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow ${
             state.isEnabled ? '' : 'disabled:bg-slate-200'
           }`}

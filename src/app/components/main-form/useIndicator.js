@@ -15,6 +15,13 @@ function indicatorReducer(state, action) {
           ? Number(((action.value * state.rate) / 100).toFixed(2))
           : 0,
       };
+    case 'change_value':
+      return {
+        ...state,
+        value: state.isEnabled
+          ? Number(action.value)
+          : 0,
+      };
     default:
       throw new Error('Unknown action');
   }
@@ -25,16 +32,22 @@ function useIndicator(initialState) {
     value: 0,
     rate: initialState.rate,
     isEnabled: initialState.isEnabled,
+    isChangeable: initialState.isChangeable || false
   });
+  console.log(initialState);
 
   const calculateValue = amount => {
     dispatch({ type: 'calculate_value', value: amount });
+  };
+  const changeValue = value => {
+    dispatch({ type: 'change_value', value });
   };
 
   const toggleEnabled = () => {
     dispatch({ type: 'toggle_isEnabled' });
   };
 
-  return { state, calculateValue, toggleEnabled };
+  return { state, calculateValue, toggleEnabled, changeValue };
 }
+
 export default useIndicator;
